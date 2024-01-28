@@ -4,7 +4,6 @@ include "./includes/functions.php";
 $status_pengguna = $_SESSION['status_pengguna'] ?? '';
 
 if (isset($_POST['simpan-diagnosis'])) {
-    $nikAnak = $_POST['nik-anak-submit'];
     $namaBalita = $_POST['nama-balita-submit'];
     $jenisKelamin = $_POST['jenis-kelamin-submit'];
     $usia = $_POST['usia-submit'];
@@ -14,7 +13,7 @@ if (isset($_POST['simpan-diagnosis'])) {
     $tingkatStunting = $_POST['tingkat-stunting-submit'];
     $giziStatus = $_POST['gizi-status-submit'];
 
-    simpanDiagnosis($nikAnak, $namaBalita, $jenisKelamin, $usia, $beratBadan, $tinggiBadan, $imt, $tingkatStunting, $giziStatus);
+    simpanDiagnosis($namaBalita, $jenisKelamin, $usia, $beratBadan, $tinggiBadan, $imt, $tingkatStunting, $giziStatus);
 }
 
 ?>
@@ -75,13 +74,6 @@ if (isset($_POST['simpan-diagnosis'])) {
                                 </div>
                                 <div class="card-body">
                                     <form id="form-diagnosis" method="POST" action="">
-                                        <div class="form-group">
-                                            <label for="nik_anak">NIK Anak</label>
-                                            <input type="text" class="form-control" id="nik_anak" name="nik_anak"
-                                                placeholder="Masukkan NIK Balita..." pattern="[0-9']+"
-                                                title="Nama hanya boleh menggunakan angka 16 digit"
-                                                required autocomplete="off">
-                                        </div>
                                         <div class="form-group">
                                             <label for="nama_balita">Nama Balita</label>
                                             <input type="text" class="form-control" id="nama_balita" name="nama_balita"
@@ -176,11 +168,6 @@ if (isset($_POST['simpan-diagnosis'])) {
                                     <div class="col">
                                         <table class="table-responsive">
                                             <tbody>
-                                                <tr>
-                                                    <td>NIK Balita</td>
-                                                    <td class="px-3">:</td>
-                                                    <td id="nik-anak">-</td>
-                                                </tr>
                                                 <tr>
                                                     <td>Nama Balita</td>
                                                     <td class="px-3">:</td>
@@ -308,7 +295,6 @@ if (isset($_POST['simpan-diagnosis'])) {
                                 </div>
 
                                 <form class="m-0" method="post" action="" onsubmit="return validateFormSubmit()">
-                                    <input type="hidden" id="nik-anak-submit" name="nik-anak-submit" readonly>
                                     <input type="hidden" id="nama-balita-submit" name="nama-balita-submit" readonly>
                                     <input type="hidden" id="jenis-kelamin-submit" name="jenis-kelamin-submit" readonly>
                                     <input type="hidden" id="usia-submit" name="usia-submit" readonly>
@@ -316,8 +302,8 @@ if (isset($_POST['simpan-diagnosis'])) {
                                     <input type="hidden" id="tinggi-badan-submit" name="tinggi-badan-submit" readonly>
                                     <input type="hidden" id="imt-submit" name="imt-submit" readonly>
                                     <input type="hidden" id="tingkat-stunting-submit" name="tingkat-stunting-submit"
-                                    <input type="hidden" id="gizi-status-submit" name="gizi-status-submit" readonly>
                                         readonly>
+                                    <input type="hidden" id="gizi-status-submit" name="gizi-status-submit" readonly>
                                     <?php if ($status_pengguna !== ''): ?>
                                                                                                     <div class="card-body">
                                                                                                         <button type="submit" name="simpan-diagnosis"
@@ -355,7 +341,6 @@ if (isset($_POST['simpan-diagnosis'])) {
 
 <script>
     function validateFormSubmit() {
-        let nikAnak = document.getElementById("nik-anak-submit").value;
         let namaBalita = document.getElementById("nama-balita-submit").value;
         let jenisKelamin = document.getElementById("jenis-kelamin-submit").value;
         let usia = document.getElementById("usia-submit").value;
@@ -366,7 +351,7 @@ if (isset($_POST['simpan-diagnosis'])) {
         let giziStatus = document.getElementById("gizi-status-submit").value;
 
         // Periksa jika salah satu input masih kosong
-        if (nikAnak === "" || namaBalita === "" || jenisKelamin === "" || usia === "" || beratBadan === "" || tinggiBadan === "" || imtVal === "" || tingkatStunting === "" || giziStatus === "") {
+        if (namaBalita === "" || jenisKelamin === "" || usia === "" || beratBadan === "" || tinggiBadan === "" || imtVal === "" || tingkatStunting === "" || giziStatus === "") {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -778,8 +763,8 @@ if (isset($_POST['simpan-diagnosis'])) {
 
         // Menambahkan informasi hasil diagnosa dan rekomendasi
         if (diagnosisStunting === "Stunting Berat" && diagnosisGizi === "Gizi Buruk") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting berat dan gizi buruk. Anak memiliki tinggi badan dan berat badan yang sangat rendah.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, segera berkonsultasi dengan dokter atau ahli gizi untuk mendapatkan panduan yang tepat berdasarkan kondisi anak.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting berat dan gizi buruk. Anak memiliki tinggi badan dan berat badan yang sangat rendah.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, segera berkonsultasi dengan, bidan, dokter atau ahli gizi untuk mendapatkan panduan yang tepat berdasarkan kondisi anak.");
             hasilDiagnosa.rekomendasi.push(`Perbaikan Pola Makan: Berikan makanan bergizi dan seimbang dengan variasi yang cukup. Prioritaskan makanan yang kaya akan protein, vitamin, dan mineral.`);
             hasilDiagnosa.rekomendasi.push("Pemberian ASI atau Susu Formula: Jika anak masih di bawah 2 tahun, ASI eksklusif direkomendasikan. Jika tidak memungkinkan, gunakan susu formula yang direkomendasikan oleh dokter.");
             hasilDiagnosa.rekomendasi.push("Konsumsi Karbohidrat: Pastikan anak mendapatkan sumber karbohidrat sehat seperti nasi, roti gandum, dan kentang untuk energi.");
@@ -787,13 +772,13 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Buah dan Sayuran: Tambahkan buah-buahan dan sayuran berwarna-warni sebagai sumber vitamin dan serat penting.");
             hasilDiagnosa.rekomendasi.push("Camilan Sehat: Pilih camilan sehat seperti yogurt rendah lemak, buah potong, atau kacang-kacangan tanpa garam.");
             hasilDiagnosa.rekomendasi.push("Pemberian Suplemen: Jika diperlukan, berikan suplemen vitamin atau mineral yang direkomendasikan oleh dokter.");
-            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin pantau tinggi dan berat badan anak untuk melihat perkembangan pertumbuhannya.");
+            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin pantau tinggi dan berat badan anak setiap bulannya diposyandu untuk melihat perkembangan pertumbuhannya.");
             hasilDiagnosa.rekomendasi.push("Ciptakan Lingkungan yang Positif: Berikan dukungan emosional kepada anak agar mereka merasa nyaman dan termotivasi untuk mengikuti perubahan pola makan.");
             hasilDiagnosa.rekomendasi.push("Pendidikan Gizi: Ajarkan anak dan anggota keluarga lainnya tentang pentingnya makanan sehat dan gizi yang seimbang.");
             hasilDiagnosa.rekomendasi.push("Rutin Pemeriksaan Medis: Pastikan anak menjalani pemeriksaan medis secara rutin untuk memantau perkembangan kesehatannya.");
         } else if (diagnosisStunting === "Stunting Berat" && diagnosisGizi === "Gizi Kurang") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting berat dan gizi kurang. Anak memiliki tinggi badan yang sangat rendah, sedangkan berat badan masih dalam batas normal atau sedikit kurang.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Segera berkonsultasi dengan dokter atau ahli gizi untuk evaluasi menyeluruh tentang kondisi anak dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting berat dan gizi kurang. Anak memiliki tinggi badan yang sangat rendah, sedangkan berat badan masih dalam batas normal atau sedikit kurang.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Segera berkonsultasi dengan bidan, dokter atau ahli gizi untuk evaluasi menyeluruh tentang kondisi anak dan rekomendasi penanganan yang tepat.");
             hasilDiagnosa.rekomendasi.push(`Peningkatan Pola Makan: Berikan makanan yang kaya nutrisi dengan porsi yang mencukupi. Pastikan anak mendapatkan makanan yang seimbang antara karbohidrat, protein, lemak, serta vitamin dan mineral.`);
             hasilDiagnosa.rekomendasi.push("Makanan Kaya Protein: Prioritaskan makanan sumber protein seperti telur, daging tanpa lemak, ikan, dan produk susu rendah lemak untuk membantu pertumbuhan dan perkembangan anak.");
             hasilDiagnosa.rekomendasi.push("Asupan Karbohidrat Sehat: Pilih sumber karbohidrat kompleks seperti nasi merah, roti gandum, dan kentang yang memberikan energi berkelanjutan.");
@@ -806,8 +791,8 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Lingkungan yang Positif: Ciptakan lingkungan yang mendukung di rumah dengan menjaga suasana hati yang baik dan memberikan dukungan emosional.");
             hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin pantau tinggi dan berat badan anak untuk memastikan perkembangannya berjalan sesuai dengan yang diharapkan.");
         } else if (diagnosisStunting === "Stunting Berat" && diagnosisGizi === "Gizi Baik") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting berat dan gizi baik. Anak memiliki tinggi badan yang sangat rendah, namun berat badan dalam batas normal untuk usianya.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Meskipun gizi anak sudah baik, penting untuk berkonsultasi dengan dokter atau ahli pertumbuhan untuk memahami penyebab stunting dan memastikan tindakan yang diambil sesuai.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting berat dan gizi baik. Anak memiliki tinggi badan yang sangat rendah, namun berat badan dalam batas normal untuk usianya.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Meskipun gizi anak sudah baik, penting untuk berkonsultasi dengan bidan, dokter atau ahli pertumbuhan untuk memahami penyebab stunting dan memastikan tindakan yang diambil sesuai.");
             hasilDiagnosa.rekomendasi.push("Pertahankan Pola Makan Sehat: Lanjutkan memberikan makanan bergizi yang sudah diberikan kepada anak. Pastikan pola makan sehat tetap terjaga untuk mendukung pertumbuhannya.");
             hasilDiagnosa.rekomendasi.push("Aktivitas Fisik: Anjuran aktivitas fisik yang sesuai dengan usia anak. Aktivitas ini membantu perkembangan fisik dan otot yang penting.");
             hasilDiagnosa.rekomendasi.push("Berikan Gizi Tambahan: Bila diperlukan, pertimbangkan suplemen vitamin atau mineral tambahan yang disarankan oleh dokter, terutama jika ada kekurangan spesifik.");
@@ -820,10 +805,10 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Terlibat dalam Aktivitas Edukatif: Ikuti acara atau seminar yang berkaitan dengan pertumbuhan anak, gizi, dan perkembangan.");
             hasilDiagnosa.rekomendasi.push("Konsistensi: Teruskan langkah-langkah di atas dengan konsisten untuk memastikan pertumbuhan dan kesehatan anak tetap optimal.");
         } else if (diagnosisStunting === "Stunting Berat" && diagnosisGizi === "Berisiko Gizi Lebih") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting berat dan berisiko mengalami gizi lebih. Anak memiliki tinggi badan yang sangat rendah, namun berat badan berisiko melebihi batas normal untuk usianya.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Penting untuk berkonsultasi dengan dokter atau ahli gizi untuk mendapatkan panduan yang tepat berdasarkan kondisi anak.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting berat dan berisiko mengalami gizi lebih. Anak memiliki tinggi badan yang sangat rendah, namun berat badan berisiko melebihi batas normal untuk usianya.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Penting untuk berkonsultasi dengan bidan, dokter atau ahli gizi untuk mendapatkan panduan yang tepat berdasarkan kondisi anak.");
             hasilDiagnosa.rekomendasi.push("Evaluasi Gizi: Lakukan evaluasi menyeluruh terhadap pola makan anak dan penilaian risiko gizi lebih bersama dengan dokter atau ahli gizi.");
-            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Sehat: Dengan bantuan dokter atau ahli gizi, rencanakan pola makan sehat yang mengakomodasi kebutuhan pertumbuhan anak tanpa memicu risiko gizi lebih.");
+            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Sehat: Dengan bantuan bidan, dokter atau ahli gizi, rencanakan pola makan sehat yang mengakomodasi kebutuhan pertumbuhan anak tanpa memicu risiko gizi lebih.");
             hasilDiagnosa.rekomendasi.push("Pilih Makanan Bergizi: Pilih makanan yang kaya protein, serat, vitamin, dan mineral, sambil memperhatikan porsi dan kualitas nutrisi.");
             hasilDiagnosa.rekomendasi.push("Batasi Makanan Rendah Gizi: Hindari makanan yang kaya gula tambahan, lemak jenuh, dan garam berlebihan.");
             hasilDiagnosa.rekomendasi.push("Aktivitas Fisik: Anjuran aktivitas fisik yang sesuai dengan usia anak untuk membantu mengelola berat badan dan meningkatkan kesehatan.");
@@ -831,11 +816,11 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Edukasi Gizi: Ajarkan anak tentang pentingnya memilih makanan sehat dan menjaga keseimbangan antara konsumsi dan aktivitas fisik.");
             hasilDiagnosa.rekomendasi.push("Ciptakan Lingkungan Positif: Dukung anak dalam mengembangkan hubungan yang sehat dengan makanan dan tubuhnya, tanpa menimbulkan stres berlebihan.");
             hasilDiagnosa.rekomendasi.push("Dukungan Emosional: Bantu anak mengatasi masalah kepercayaan diri yang mungkin muncul akibat stunting dan risiko gizi lebih.");
-            hasilDiagnosa.rekomendasi.push("Jadwal Pemeriksaan Berkala: Tetapkan jadwal pemeriksaan kesehatan berkala dengan dokter untuk memantau perkembangan kesehatan anak.");
+            hasilDiagnosa.rekomendasi.push("Jadwal Pemeriksaan Berkala: Tetapkan jadwal pemeriksaan kesehatan berkala dengan bidan atau dokter untuk memantau perkembangan kesehatan anak.");
             hasilDiagnosa.rekomendasi.push("Konsistensi dan Fleksibilitas: Terapkan langkah-langkah ini secara konsisten, sambil tetap fleksibel dalam menyesuaikan kebutuhan anak seiring waktu.");
         } else if (diagnosisStunting === "Stunting Berat" && diagnosisGizi === "Gizi Lebih") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting berat dan gizi lebih. Anak memiliki tinggi badan yang sangat rendah, namun berat badan melebihi batas normal untuk usianya.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, berkonsultasilah dengan dokter atau ahli gizi untuk evaluasi menyeluruh mengenai kondisi anak dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting berat dan gizi lebih. Anak memiliki tinggi badan yang sangat rendah, namun berat badan melebihi batas normal untuk usianya.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, berkonsultasilah dengan bidan, dokter atau ahli gizi untuk evaluasi menyeluruh mengenai kondisi anak dan rekomendasi penanganan yang tepat.");
             hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Sehat: Bekerjasama dengan dokter atau ahli gizi, buatlah rencana pola makan sehat yang mengakomodasi kebutuhan pertumbuhan anak tanpa memicu risiko gizi lebih.");
             hasilDiagnosa.rekomendasi.push("Kontrol Asupan Kalori: Pastikan anak mendapatkan jumlah kalori yang sesuai dengan pertumbuhan dan tingkat aktivitas fisiknya.");
             hasilDiagnosa.rekomendasi.push("Pilih Makanan Seimbang: Pilih makanan yang kaya nutrisi seperti protein berkualitas, serat, vitamin, dan mineral. Hindari makanan tinggi lemak jenuh, gula tambahan, dan garam berlebih.");
@@ -845,25 +830,25 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Edukasi Gizi: Ajarkan anak tentang pentingnya memilih makanan sehat dan menjaga keseimbangan antara konsumsi dan aktivitas fisik.");
             hasilDiagnosa.rekomendasi.push("Dukungan Psikologis: Bantu anak mengembangkan hubungan yang sehat dengan makanan dan tubuhnya, sambil mendukungnya secara emosional.");
             hasilDiagnosa.rekomendasi.push("Batasi Konsumsi Makanan Ringan: Kurangi konsumsi makanan ringan tinggi gula, lemak, dan garam yang dapat menyebabkan risiko gizi lebih.");
-            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
+            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan bidan, dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
             hasilDiagnosa.rekomendasi.push("Fleksibilitas: Tetap fleksibel dalam menyesuaikan rencana penanganan sesuai dengan perkembangan anak dan rekomendasi medis.");
         } else if (diagnosisStunting === "Stunting Berat" && diagnosisGizi === "Obesitas") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting berat dan obesitas. Anak memiliki tinggi badan yang sangat rendah, namun berat badan melebihi batas normal untuk usianya.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, berkonsultasilah dengan dokter atau ahli gizi untuk evaluasi menyeluruh dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting berat dan obesitas. Anak memiliki tinggi badan yang sangat rendah, namun berat badan melebihi batas normal untuk usianya.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, berkonsultasilah dengan bidan, dokter atau ahli gizi untuk evaluasi menyeluruh dan rekomendasi penanganan yang tepat.");
             hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Sehat: Bekerjasama dengan dokter atau ahli gizi, buat rencana pola makan sehat yang seimbang dan memenuhi kebutuhan nutrisi anak tanpa memicu risiko gizi lebih.");
             hasilDiagnosa.rekomendasi.push("Pilih Makanan Nutritif: Pilih makanan yang kaya protein berkualitas, serat, vitamin, dan mineral. Hindari makanan tinggi lemak jenuh, gula tambahan, dan garam berlebih.");
             hasilDiagnosa.rekomendasi.push("Kontrol Asupan Kalori: Pastikan anak mendapatkan jumlah kalori yang sesuai dengan pertumbuhan dan tingkat aktivitas fisiknya, dengan menghindari kelebihan kalori.");
             hasilDiagnosa.rekomendasi.push("Porsi yang Terkendali: Pertimbangkan porsi makan yang sesuai dengan kebutuhan anak, menghindari konsumsi berlebihan.");
             hasilDiagnosa.rekomendasi.push("Aktivitas Fisik: Anjuran aktivitas fisik yang sesuai dengan usia anak, membantu mengelola berat badan dan meningkatkan kesehatan.");
-            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Pantau pertumbuhan tinggi dan berat badan anak secara teratur untuk memastikan pertumbuhannya sesuai dengan usia.");
+            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Pantau pertumbuhan tinggi dan berat badan anak secara teratur diposyandu setiap bulannya untuk memastikan pertumbuhannya sesuai dengan usia.");
             hasilDiagnosa.rekomendasi.push("Edukasi Gizi: Ajarkan anak tentang pentingnya makan sehat dan menjaga keseimbangan antara konsumsi dan aktivitas fisik.");
             hasilDiagnosa.rekomendasi.push("Dukungan Psikologis: Bantu anak mengembangkan hubungan yang sehat dengan makanan dan tubuhnya, sambil mendukungnya secara emosional.");
             hasilDiagnosa.rekomendasi.push("Batasi Konsumsi Makanan Ringan: Kurangi konsumsi makanan ringan tinggi gula, lemak, dan garam yang dapat memicu risiko gizi lebih.");
-            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
+            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan bidan, dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
             hasilDiagnosa.rekomendasi.push("Ciptakan Lingkungan Sehat: Buat lingkungan di rumah yang mendukung pola makan sehat dan gaya hidup aktif bagi seluruh keluarga.");
         } else if (diagnosisStunting === "Stunting Ringan" && diagnosisGizi === "Gizi Buruk") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting ringan dan status gizi buruk. Tinggi badan anak kurang dari batas normal untuk usianya dan berat badan anak juga kurang.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Berkonsultasilah dengan dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang sesuai.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting ringan dan status gizi buruk. Tinggi badan anak kurang dari batas normal untuk usianya dan berat badan anak juga kurang.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Berkonsultasilah dengan bidan, dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang sesuai.");
             hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Seimbang: Bekerjasama dengan dokter atau ahli gizi, buat rencana pola makan seimbang yang memenuhi kebutuhan nutrisi anak dan mendukung pertumbuhannya.");
             hasilDiagnosa.rekomendasi.push("Berikan Makanan Bergizi: Pilih makanan yang kaya protein, vitamin, dan mineral untuk membantu anak dalam pemulihan gizinya.");
             hasilDiagnosa.rekomendasi.push("Asupan Karbohidrat Sehat: Sertakan karbohidrat kompleks seperti nasi merah, roti gandum, dan kentang dalam makanan untuk memberikan energi.");
@@ -876,9 +861,9 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Dukungan Emosional: Berikan dukungan emosional kepada anak untuk membantu meningkatkan kepercayaan dirinya.");
             hasilDiagnosa.rekomendasi.push("Kontinuitas dan Kesabaran: Proses pemulihan memerlukan waktu, jadi tetap konsisten dengan langkah-langkah di atas dan bersabarlah.");
         } else if (diagnosisStunting === "Stunting Ringan" && diagnosisGizi === "Gizi Kurang") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting ringan dan status gizi kurang. Tinggi badan anak kurang dari batas normal untuk usianya namun berat badan normal.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Segera berkonsultasi dengan dokter atau ahli gizi untuk evaluasi mendalam tentang kondisi anak dan rekomendasi penanganan yang tepat.");
-            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Sehat: Bekerjasama dengan dokter atau ahli gizi, susun rencana pola makan yang mengandung berbagai nutrisi penting seperti protein, vitamin, dan mineral.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting ringan dan status gizi kurang. Tinggi badan anak kurang dari batas normal untuk usianya namun berat badan normal.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Segera berkonsultasi dengan bidan, dokter atau ahli gizi untuk evaluasi mendalam tentang kondisi anak dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Sehat: Bekerjasama dengan bidan, dokter atau ahli gizi, susun rencana pola makan yang mengandung berbagai nutrisi penting seperti protein, vitamin, dan mineral.");
             hasilDiagnosa.rekomendasi.push("Kaya Protein: Berikan makanan kaya protein seperti telur, daging tanpa lemak, ikan, dan produk susu rendah lemak untuk mendukung pertumbuhan anak.");
             hasilDiagnosa.rekomendasi.push("Sumber Karbohidrat Sehat: Pilih karbohidrat kompleks seperti nasi merah, roti gandum, dan kentang untuk memberikan energi yang berkelanjutan.");
             hasilDiagnosa.rekomendasi.push("Buah dan Sayuran: Sertakan berbagai jenis buah dan sayuran dalam makanan anak untuk mendapatkan vitamin dan serat yang penting.");
@@ -904,9 +889,9 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Pendidikan Kesehatan: Libatkan anak dalam acara atau seminar yang berkaitan dengan pertumbuhan, nutrisi, dan kesehatan.");
             hasilDiagnosa.rekomendasi.push("Pemeriksaan Kesehatan Rutin: Tetapkan jadwal pemeriksaan kesehatan berkala dengan dokter untuk memastikan pertumbuhan dan kesehatan anak tetap optimal.");
         } else if (diagnosisStunting === "Stunting Ringan" && diagnosisGizi === "Berisiko Gizi Lebih") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting ringan dan berisiko mengalami gizi lebih. Tinggi badan anak kurang dari batas normal untuk usianya namun berat badan berisiko melebihi batas normal.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Berkonsultasilah dengan dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
-            hasilDiagnosa.rekomendasi.push("Pola Makan Seimbang: Bekerjasama dengan dokter atau ahli gizi, buat rencana pola makan yang seimbang, memenuhi kebutuhan nutrisi anak tanpa memicu risiko gizi lebih.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting ringan dan berisiko mengalami gizi lebih. Tinggi badan anak kurang dari batas normal untuk usianya namun berat badan berisiko melebihi batas normal.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Berkonsultasilah dengan bidan, dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.rekomendasi.push("Pola Makan Seimbang: Bekerjasama dengan bidan, dokter atau ahli gizi, buat rencana pola makan yang seimbang, memenuhi kebutuhan nutrisi anak tanpa memicu risiko gizi lebih.");
             hasilDiagnosa.rekomendasi.push("Batasi Kalori Berlebih: Pastikan anak mendapatkan jumlah kalori yang sesuai dengan pertumbuhan dan aktivitas fisiknya, menghindari konsumsi berlebihan.");
             hasilDiagnosa.rekomendasi.push("Pilih Makanan Nutritif: Prioritaskan makanan yang kaya protein berkualitas, serat, vitamin, dan mineral. Hindari makanan tinggi lemak jenuh, gula tambahan, dan garam berlebih.");
             hasilDiagnosa.rekomendasi.push("Porsi yang Terkendali: Pertimbangkan porsi makan yang terkendali sesuai dengan kebutuhan pertumbuhan dan aktivitas anak.");
@@ -918,9 +903,9 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
             hasilDiagnosa.rekomendasi.push("Fleksibilitas dan Konsistensi: Pertahankan rencana penanganan dengan konsisten sambil tetap fleksibel dalam menyesuaikan kebutuhan anak.");
         } else if (diagnosisStunting === "Stunting Ringan" && diagnosisGizi === "Gizi Lebih") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting ringan dan status gizi lebih. Tinggi badan anak kurang dari batas normal untuk usianya namun berat badan melebihi batas normal.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, berkonsultasilah dengan dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
-            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Sehat: Bekerjasama dengan dokter atau ahli gizi, buatlah rencana pola makan sehat yang seimbang, memperhitungkan kebutuhan nutrisi anak tanpa memicu risiko gizi lebih.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting ringan dan status gizi lebih. Tinggi badan anak kurang dari batas normal untuk usianya namun berat badan melebihi batas normal.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, berkonsultasilah dengan bidan, dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Sehat: Bekerjasama dengan bidan, dokter atau ahli gizi, buatlah rencana pola makan sehat yang seimbang, memperhitungkan kebutuhan nutrisi anak tanpa memicu risiko gizi lebih.");
             hasilDiagnosa.rekomendasi.push("Kontrol Asupan Kalori: Pastikan anak mendapatkan jumlah kalori yang sesuai dengan pertumbuhan dan tingkat aktivitas fisiknya, dengan memperhatikan porsi yang tepat.");
             hasilDiagnosa.rekomendasi.push("Pilih Makanan Nutritif: Prioritaskan makanan yang kaya protein berkualitas, serat, vitamin, dan mineral. Hindari makanan tinggi lemak jenuh, gula tambahan, dan garam berlebih.");
             hasilDiagnosa.rekomendasi.push("Porsi yang Terkendali: Pertimbangkan porsi makan yang sesuai dengan kebutuhan pertumbuhan dan aktivitas anak, untuk menghindari konsumsi kalori berlebih.");
@@ -932,52 +917,52 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
             hasilDiagnosa.rekomendasi.push("Kesabaran dan Konsistensi: Ingatlah bahwa perubahan memerlukan waktu. Pertahankan langkah-langkah ini dengan konsisten.");
         } else if (diagnosisStunting === "Stunting Ringan" && diagnosisGizi === "Obesitas") {
-            hasilDiagnosa.informasi = "Anak mengalami stunting ringan dan obesitas. Tinggi badan anak kurang dari batas normal untuk usianya namun berat badan melebihi batas normal.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, konsultasilah dengan dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
-            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Sehat: Bekerjasama dengan dokter atau ahli gizi, buat rencana pola makan sehat yang seimbang, memenuhi kebutuhan nutrisi anak sambil menghindari konsumsi berlebihan.");
+            hasilDiagnosa.informasi = "Anak mengalami resiko stunting ringan dan obesitas. Tinggi badan anak kurang dari batas normal untuk usianya namun berat badan melebihi batas normal.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, konsultasilah dengan bidan, dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Sehat: Bekerjasama dengan bidan, dokter atau ahli gizi, buat rencana pola makan sehat yang seimbang, memenuhi kebutuhan nutrisi anak sambil menghindari konsumsi berlebihan.");
             hasilDiagnosa.rekomendasi.push("Batasi Asupan Kalori: Pastikan anak mendapatkan jumlah kalori yang sesuai dengan pertumbuhan dan tingkat aktivitas fisiknya, dengan memperhatikan porsi yang terkendali.");
             hasilDiagnosa.rekomendasi.push("Pilih Makanan Nutritif: Prioritaskan makanan yang kaya protein berkualitas, serat, vitamin, dan mineral. Hindari makanan tinggi lemak jenuh, gula tambahan, dan garam berlebih.");
             hasilDiagnosa.rekomendasi.push("Aktivitas Fisik Teratur: Anjurkan anak untuk berpartisipasi dalam aktivitas fisik yang sesuai dengan usia, membantu mengelola berat badan dan meningkatkan kesehatan.");
-            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Tetap pantau pertumbuhan tinggi dan berat badan anak secara berkala untuk memastikan perkembangannya sesuai dengan usia.");
+            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Tetap pantau pertumbuhan tinggi dan berat badan anak secara berkala diposyandu setiap bulannya untuk memastikan perkembangannya sesuai dengan usia.");
             hasilDiagnosa.rekomendasi.push("Dukungan Psikologis: Bantu anak mengembangkan hubungan yang sehat dengan makanan dan tubuhnya, sambil mendukungnya secara emosional.");
             hasilDiagnosa.rekomendasi.push("Edukasi Gizi: Ajarkan anak tentang pentingnya makanan sehat dan menjaga keseimbangan antara konsumsi dan aktivitas fisik.");
             hasilDiagnosa.rekomendasi.push("Lingkungan Sehat: Ciptakan lingkungan di rumah yang mendukung pola makan sehat dan gaya hidup aktif bagi seluruh keluarga.");
-            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
+            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan bidan, dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
             hasilDiagnosa.rekomendasi.push("Konsistensi dan Fleksibilitas: Pertahankan rencana penanganan dengan konsisten sambil tetap fleksibel dalam menyesuaikan kebutuhan anak.");
             hasilDiagnosa.rekomendasi.push("Proses Bertahap: Ingatlah bahwa perubahan memerlukan waktu. Lakukan perubahan secara bertahap dan dengan pendekatan yang seimbang.");
         } else if (diagnosisStunting === "Tidak Stunting" && diagnosisGizi === "Gizi Buruk") {
-            hasilDiagnosa.informasi = "Anak tidak mengalami stunting namun status gizi buruk. Tinggi badan anak normal untuk usianya namun berat badan anak kurang.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Berkonsultasilah dengan dokter atau ahli gizi untuk mendapatkan evaluasi mendalam tentang kondisi anak dan rekomendasi penanganan yang tepat.");
-            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Bergizi: Bekerjasama dengan dokter atau ahli gizi, buat rencana pola makan yang mengandung berbagai nutrisi penting seperti protein, vitamin, dan mineral.");
+            hasilDiagnosa.informasi = "Anak tidak mengalami resiko stunting namun status gizi buruk. Tinggi badan anak normal untuk usianya namun berat badan anak kurang.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Berkonsultasilah dengan bidan, dokter atau ahli gizi untuk mendapatkan evaluasi mendalam tentang kondisi anak dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Bergizi: Bekerjasama dengan bidan, dokter atau ahli gizi, buat rencana pola makan yang mengandung berbagai nutrisi penting seperti protein, vitamin, dan mineral.");
             hasilDiagnosa.rekomendasi.push("Sumber Protein: Berikan makanan sumber protein berkualitas seperti daging tanpa lemak, ikan, dan produk susu rendah lemak untuk membantu pemulihan gizi anak.");
             hasilDiagnosa.rekomendasi.push("Pilih Karbohidrat Sehat: Sertakan karbohidrat kompleks seperti nasi merah, roti gandum, dan kentang dalam makanan untuk memberikan energi yang berkelanjutan.");
             hasilDiagnosa.rekomendasi.push("Buah dan Sayuran: Sertakan berbagai jenis buah dan sayuran dalam makanan anak untuk mendapatkan vitamin dan serat yang penting.");
             hasilDiagnosa.rekomendasi.push("Porsi yang Cukup: Pastikan anak mendapatkan porsi makan yang cukup sesuai dengan kebutuhan pertumbuhan dan aktivitasnya.");
-            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin pantau tinggi dan berat badan anak untuk melihat perkembangan pertumbuhannya.");
+            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin ke posyandu tiap bulan mengukur tinggi dan berat badan anak untuk melihat perkembangan pertumbuhannya.");
             hasilDiagnosa.rekomendasi.push("Dukungan Psikologis: Bantu anak mengatasi masalah kepercayaan diri yang mungkin muncul akibat gizi buruk, dan ciptakan lingkungan yang positif di sekitarnya.");
             hasilDiagnosa.rekomendasi.push("Edukasi Gizi: Ajarkan anak dan keluarga tentang pentingnya makanan sehat dan menjaga pola makan yang baik.");
             hasilDiagnosa.rekomendasi.push("Camilan Nutrisi: Sediakan camilan sehat seperti buah potong, kacang-kacangan, atau yogurt rendah lemak untuk memenuhi nutrisi tambahan.");
             hasilDiagnosa.rekomendasi.push("Minuman Sehat: Pastikan anak mendapatkan cairan yang cukup dengan memberikan air putih atau minuman rendah gula.");
-            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
+            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan bidan, dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
             hasilDiagnosa.rekomendasi.push("Kesabaran dan Konsistensi: Ingat bahwa proses pemulihan memerlukan waktu. Pertahankan langkah-langkah ini dengan konsisten.");
         } else if (diagnosisStunting === "Tidak Stunting" && diagnosisGizi === "Gizi Kurang") {
-            hasilDiagnosa.informasi = "Anak tidak mengalami stunting namun status gizi kurang. Tinggi badan dan berat badan anak normal untuk usianya.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, berkonsultasilah dengan dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
-            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Bergizi: Bekerjasama dengan dokter atau ahli gizi, buatlah rencana pola makan yang mengandung berbagai nutrisi penting seperti protein, vitamin, dan mineral.");
+            hasilDiagnosa.informasi = "Anak tidak mengalami resiko stunting namun status gizi kurang. Tinggi badan dan berat badan anak normal untuk usianya.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, berkonsultasilah dengan bidan, dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Bergizi: Bekerjasama dengan bidan, dokter atau ahli gizi, buatlah rencana pola makan yang mengandung berbagai nutrisi penting seperti protein, vitamin, dan mineral.");
             hasilDiagnosa.rekomendasi.push("Asupan Protein: Berikan makanan yang mengandung protein berkualitas seperti daging tanpa lemak, ikan, dan produk susu rendah lemak untuk membantu pemulihan gizi anak.");
             hasilDiagnosa.rekomendasi.push("Karbohidrat Sehat: Pilih karbohidrat kompleks seperti nasi merah, roti gandum, dan kentang untuk memberikan energi yang berkelanjutan.");
             hasilDiagnosa.rekomendasi.push("Buah dan Sayuran: Sertakan berbagai jenis buah dan sayuran dalam makanan anak untuk memenuhi kebutuhan vitamin dan serat.");
             hasilDiagnosa.rekomendasi.push("Porsi yang Cukup: Pastikan anak mendapatkan porsi makan yang cukup sesuai dengan kebutuhan pertumbuhan dan aktivitasnya.");
-            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin pantau tinggi dan berat badan anak untuk melihat perkembangan pertumbuhannya.");
-            hasilDiagnosa.rekomendasi.push("Suplemen Gizi: Jika diperlukan, berikan suplemen vitamin atau mineral yang direkomendasikan oleh dokter.");
+            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin pantau tinggi dan berat badan anak diposyandu untuk melihat perkembangan pertumbuhannya.");
+            hasilDiagnosa.rekomendasi.push("Suplemen Gizi: Jika diperlukan, berikan suplemen vitamin atau mineral yang direkomendasikan oleh bidan atau dokter.");
             hasilDiagnosa.rekomendasi.push("Dukungan Psikologis: Bantu anak mengatasi masalah kepercayaan diri yang mungkin muncul akibat gizi kurang, dan ciptakan lingkungan yang positif di sekitarnya.");
             hasilDiagnosa.rekomendasi.push("Edukasi Gizi: Ajarkan anak dan keluarga tentang pentingnya makanan sehat dan menjaga pola makan yang baik.");
             hasilDiagnosa.rekomendasi.push("Camilan Nutrisi: Sediakan camilan sehat seperti buah potong, kacang-kacangan, atau yogurt rendah lemak untuk memberikan nutrisi tambahan.");
             hasilDiagnosa.rekomendasi.push("Minuman Sehat: Pastikan anak mendapatkan cairan yang cukup dengan memberikan air putih atau minuman rendah gula.");
-            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
+            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan bidan, dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
             hasilDiagnosa.rekomendasi.push("Kesabaran dan Konsistensi: Ingat bahwa pemulihan memerlukan waktu. Pertahankan langkah-langkah ini dengan konsisten.");
         } else if (diagnosisStunting === "Tidak Stunting" && diagnosisGizi === "Gizi Baik") {
-            hasilDiagnosa.informasi = "Anak tidak mengalami stunting dan status gizinya baik. Tinggi badan dan berat badan anak normal untuk usianya.";
+            hasilDiagnosa.informasi = "Anak tidak mengalami resiko stunting dan status gizinya baik. Tinggi badan dan berat badan anak normal untuk usianya.";
             hasilDiagnosa.rekomendasi.push("Pertahankan Pola Makan Sehat: Lanjutkan dengan memberikan pola makan yang seimbang dan kaya nutrisi, dengan memperhatikan kebutuhan pertumbuhan dan aktivitas anak.");
             hasilDiagnosa.rekomendasi.push("Berikan Makanan Nutritif: Sertakan makanan yang kaya protein, vitamin, dan mineral dalam diet anak untuk mendukung kesehatan dan perkembangannya.");
             hasilDiagnosa.rekomendasi.push("Kombinasikan Beragam Makanan: Pastikan anak mendapatkan berbagai jenis makanan dari semua kelompok makanan untuk memenuhi kebutuhan nutrisi yang beragam.");
@@ -985,17 +970,17 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Buah dan Sayuran: Sertakan berbagai jenis buah dan sayuran dalam makanan anak untuk memenuhi kebutuhan vitamin dan serat.");
             hasilDiagnosa.rekomendasi.push("Porsi yang Sesuai: Pastikan anak mendapatkan porsi makan yang sesuai dengan kebutuhan pertumbuhan dan aktivitasnya.");
             hasilDiagnosa.rekomendasi.push("Aktivitas Fisik Teratur: Anjurkan anak untuk berpartisipasi dalam aktivitas fisik yang sesuai dengan usia, membantu menjaga kesehatan dan kebugaran.");
-            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Tetap pantau tinggi dan berat badan anak secara berkala untuk memastikan perkembangan pertumbuhannya sesuai dengan usia.");
+            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Tetap pantau tinggi dan berat badan anak secara rutin diposyandu tiap bulannya untuk memastikan perkembangan pertumbuhannya sesuai dengan usia.");
             hasilDiagnosa.rekomendasi.push("Edukasi Gizi: Terus ajarkan anak tentang pentingnya gizi seimbang dan memberi tahu mereka tentang manfaat makanan sehat.");
             hasilDiagnosa.rekomendasi.push("Camilan Sehat: Sediakan camilan sehat seperti buah potong, kacang-kacangan, atau yogurt rendah lemak untuk memberikan nutrisi tambahan.");
             hasilDiagnosa.rekomendasi.push("Minuman Sehat: Pastikan anak mendapatkan cairan yang cukup dengan memberikan air putih atau minuman rendah gula.");
             hasilDiagnosa.rekomendasi.push("Lingkungan Positif: Ciptakan lingkungan di rumah yang mendukung pola makan sehat dan gaya hidup aktif bagi seluruh keluarga.");
-            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan menjaga kesehatan anak.");
+            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan bidan, dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan menjaga kesehatan anak.");
             hasilDiagnosa.rekomendasi.push("Kesadaran Kontinu: Ingatkan anak agar tetap sadar akan pentingnya makanan sehat dan gaya hidup aktif.");
         } else if (diagnosisStunting === "Tidak Stunting" && diagnosisGizi === "Berisiko Gizi Lebih") {
-            hasilDiagnosa.informasi = "Anak tidak mengalami stunting namun berisiko mengalami gizi lebih. Tinggi badan dan berat badan anak normal untuk usianya namun berat badan berisiko melebihi batas normal.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, konsultasilah dengan dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
-            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Terkendali: Bekerjasama dengan dokter atau ahli gizi, buatlah rencana pola makan yang mengatur asupan kalori dan nutrisi anak sesuai dengan kebutuhan pertumbuhan dan aktivitas.");
+            hasilDiagnosa.informasi = "Anak tidak mengalami resiko stunting namun berisiko mengalami gizi lebih. Tinggi badan dan berat badan anak normal untuk usianya namun berat badan berisiko melebihi batas normal.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, konsultasilah dengan bidan, dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Terkendali: Bekerjasama dengan bidan, dokter atau ahli gizi, buatlah rencana pola makan yang mengatur asupan kalori dan nutrisi anak sesuai dengan kebutuhan pertumbuhan dan aktivitas.");
             hasilDiagnosa.rekomendasi.push("Pilih Makanan Nutritif: Prioritaskan makanan yang kaya protein berkualitas, serat, vitamin, dan mineral. Hindari makanan tinggi lemak jenuh dan gula tambahan.");
             hasilDiagnosa.rekomendasi.push("Kontrol Porsi: Pastikan anak mendapatkan porsi makan yang sesuai dengan kebutuhan energi dan aktivitasnya, untuk mencegah konsumsi kalori berlebihan.");
             hasilDiagnosa.rekomendasi.push("Buah dan Sayuran: Sertakan berbagai jenis buah dan sayuran dalam makanan anak untuk memenuhi kebutuhan vitamin dan serat.");
@@ -1005,7 +990,7 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Edukasi Gizi: Ajarkan anak tentang pentingnya gizi seimbang dan menjaga pola makan yang baik.");
             hasilDiagnosa.rekomendasi.push("Batasi Minuman Tinggi Gula: Hindari minuman beralkohol, minuman bersoda, dan minuman tinggi gula lainnya.");
             hasilDiagnosa.rekomendasi.push("Lingkungan Sehat: Ciptakan lingkungan di rumah yang mendukung pola makan sehat dan gaya hidup aktif bagi seluruh keluarga.");
-            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
+            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan bidan, dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
             hasilDiagnosa.rekomendasi.push("Kesabaran dan Konsistensi: Ingat bahwa perubahan memerlukan waktu. Pertahankan langkah-langkah ini dengan konsisten.");
         } else if (diagnosisStunting === "Tidak Stunting" && diagnosisGizi === "Gizi Lebih") {
             hasilDiagnosa.informasi = "Anak tidak mengalami stunting namun status gizi lebih. Tinggi badan dan berat badan anak normal untuk usianya namun berat badan melebihi batas normal.";
@@ -1016,27 +1001,27 @@ if (isset($_POST['simpan-diagnosis'])) {
             hasilDiagnosa.rekomendasi.push("Buah dan Sayuran: Sertakan berbagai jenis buah dan sayuran dalam makanan anak untuk memenuhi kebutuhan vitamin dan serat.");
             hasilDiagnosa.rekomendasi.push("Batasi Makanan Tinggi Gula: Hindari makanan atau minuman yang mengandung gula tambahan, seperti permen, minuman bersoda, dan makanan cepat saji.");
             hasilDiagnosa.rekomendasi.push("Aktivitas Fisik Teratur: Anjurkan anak untuk berpartisipasi dalam aktivitas fisik yang sesuai dengan usia, membantu mengontrol berat badan dan menjaga kesehatan.");
-            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin pantau tinggi dan berat badan anak untuk memastikan perkembangannya sesuai dengan usia.");
+            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin pantau tinggi dan berat badan anak di posyandu untuk memastikan perkembangannya sesuai dengan usia.");
             hasilDiagnosa.rekomendasi.push("Dukungan Psikologis: Bantu anak mengembangkan hubungan yang sehat dengan makanan dan tubuhnya, sambil mendukungnya secara emosional.");
             hasilDiagnosa.rekomendasi.push("Edukasi Gizi: Ajarkan anak tentang pentingnya gizi seimbang dan bagaimana memilih makanan yang baik untuk kesehatan mereka.");
             hasilDiagnosa.rekomendasi.push("Lingkungan Sehat: Ciptakan lingkungan di rumah yang mendukung pola makan sehat dan gaya hidup aktif bagi seluruh keluarga.");
             hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
             hasilDiagnosa.rekomendasi.push("Kesabaran dan Konsistensi: Ingat bahwa perubahan memerlukan waktu. Pertahankan langkah-langkah ini dengan konsisten.");
         } else if (diagnosisStunting === "Tidak Stunting" && diagnosisGizi === "Obesitas") {
-            hasilDiagnosa.informasi = "Anak tidak mengalami stunting namun mengalami obesitas. Tinggi badan dan berat badan anak normal untuk usianya namun berat badan melebihi batas normal.";
-            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, konsultasilah dengan dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
-            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Seimbang: Bekerjasama dengan dokter atau ahli gizi, buat rencana pola makan yang mengontrol asupan kalori dan nutrisi anak sesuai dengan kebutuhan pertumbuhan dan aktivitas.");
+            hasilDiagnosa.informasi = "Anak tidak mengalami indikasi stunting namun mengalami obesitas. Tinggi badan dan berat badan anak normal untuk usianya namun berat badan melebihi batas normal.";
+            hasilDiagnosa.rekomendasi.push("Konsultasikan dengan Dokter: Pertama-tama, konsultasilah dengan bidan, dokter atau ahli gizi untuk mendapatkan evaluasi yang akurat tentang kondisi anak dan rekomendasi penanganan yang tepat.");
+            hasilDiagnosa.rekomendasi.push("Rencanakan Pola Makan Seimbang: Bekerjasama dengan bidan, dokter atau ahli gizi, buat rencana pola makan yang mengontrol asupan kalori dan nutrisi anak sesuai dengan kebutuhan pertumbuhan dan aktivitas.");
             hasilDiagnosa.rekomendasi.push("Pilih Makanan Berkualitas: Prioritaskan makanan yang kaya nutrisi seperti protein berkualitas, serat, vitamin, dan mineral. Hindari makanan tinggi lemak jenuh dan gula tambahan.");
             hasilDiagnosa.rekomendasi.push("Kontrol Porsi: Pastikan anak mendapatkan porsi makan yang sesuai dengan kebutuhan energi dan aktivitasnya, untuk mencegah konsumsi kalori berlebihan.");
             hasilDiagnosa.rekomendasi.push("Batasi Makanan Tinggi Gula dan Lemak: Hindari makanan atau minuman yang mengandung gula tambahan, minyak goreng berlebihan, dan makanan cepat saji.");
             hasilDiagnosa.rekomendasi.push("Buah dan Sayuran: Sertakan berbagai jenis buah dan sayuran dalam makanan anak untuk memenuhi kebutuhan vitamin dan serat.");
             hasilDiagnosa.rekomendasi.push("Minuman Sehat: Pastikan anak mendapatkan cairan yang cukup dengan memberikan air putih atau minuman rendah gula.");
             hasilDiagnosa.rekomendasi.push("Aktivitas Fisik Teratur: Anjurkan anak untuk berpartisipasi dalam aktivitas fisik yang sesuai dengan usia, membantu mengontrol berat badan dan menjaga kesehatan.");
-            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin pantau tinggi dan berat badan anak untuk memastikan perkembangannya sesuai dengan usia.");
+            hasilDiagnosa.rekomendasi.push("Pantau Pertumbuhan: Rutin pantau tinggi dan berat badan anak di posyandu untuk memastikan perkembangannya sesuai dengan usia.");
             hasilDiagnosa.rekomendasi.push("Dukungan Psikologis: Bantu anak mengembangkan hubungan yang sehat dengan makanan dan tubuhnya, sambil mendukungnya secara emosional.");
             hasilDiagnosa.rekomendasi.push("Edukasi Gizi: Ajarkan anak tentang pentingnya gizi seimbang dan bagaimana memilih makanan yang baik untuk kesehatan mereka.");
             hasilDiagnosa.rekomendasi.push("Lingkungan Sehat: Ciptakan lingkungan di rumah yang mendukung pola makan sehat dan gaya hidup aktif bagi seluruh keluarga.");
-            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
+            hasilDiagnosa.rekomendasi.push("Kolaborasi dengan Tim Medis: Bekerjasama dengan bidan, dokter, ahli gizi, dan spesialis lainnya untuk memonitor dan mengatur penanganan anak.");
             hasilDiagnosa.rekomendasi.push("Kesabaran dan Konsistensi: Ingat bahwa perubahan memerlukan waktu. Pertahankan langkah-langkah ini dengan konsisten.");
         }
  
@@ -1046,7 +1031,6 @@ if (isset($_POST['simpan-diagnosis'])) {
 
 <script>
     const form = document.getElementById('form-diagnosis');
-    const nikAnakElement = document.getElementById('nik-anak');
     const namaBalitaElement = document.getElementById('nama-balita');
     const jenisKelaminElement = document.getElementById('jenis-kelamin');
     const usiaElement = document.getElementById('usia');
@@ -1073,7 +1057,6 @@ if (isset($_POST['simpan-diagnosis'])) {
     const giziLebihRangeElement = document.getElementById('giziLebihRange');
     const giziObesitasRangeElement = document.getElementById('giziObesitasRange');
 
-    const nikAnakElementSubmit = document.getElementById('nik-anak-submit');
     const namaBalitaElementSubmit = document.getElementById('nama-balita-submit');
     const jenisKelaminElementSubmit = document.getElementById('jenis-kelamin-submit');
     const usiaElementSubmit = document.getElementById('usia-submit');
@@ -1088,7 +1071,6 @@ if (isset($_POST['simpan-diagnosis'])) {
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const nikAnak = document.getElementById('nik_anak').value;
         const namaBalita = document.getElementById('nama_balita').value;
         const jenisKelamin = document.getElementById('jenis_kelamin').value;
         const usiaBalita = parseInt(document.getElementById('usia_balita').value);
@@ -1096,7 +1078,7 @@ if (isset($_POST['simpan-diagnosis'])) {
         const tinggiBadan = parseFloat(document.getElementById('tb_balita').value);
 
         // Validasi setiap input
-        if (!nikAnak || !namaBalita || jenisKelamin === "Masukkkan Jenis Kelamin"|| (usiaBalita !== 0 && !usiaBalita) || !beratBadan || !tinggiBadan) {
+        if (!namaBalita || jenisKelamin === 'Pilih jenis kelamin' || (usiaBalita !== 0 && !usiaBalita) || !beratBadan || !tinggiBadan) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -1125,9 +1107,6 @@ if (isset($_POST['simpan-diagnosis'])) {
         // Mengatur delay sebelum menampilkan hasil
         setTimeout(function () {
             // Update nilai input pada tabel hasil
-            nikAnakElement.textContent = nikAnak;
-            nikAnakElementSubmit.value = nikAnak;
-
             namaBalitaElement.textContent = namaBalita;
             namaBalitaElementSubmit.value = namaBalita;
 
@@ -1240,7 +1219,6 @@ if (isset($_POST['simpan-diagnosis'])) {
 
     function resetFormDiagnosis() {
         form.reset();
-        nikAnakElement.textContent = "-";
         namaBalitaElement.textContent = "-";
         jenisKelaminElement.textContent = "-";
         usiaElement.textContent = "-";
