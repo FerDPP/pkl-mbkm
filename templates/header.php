@@ -7,10 +7,10 @@
     <meta name="description"
         content="Sistem pakar diagnosis stunting pada balita. Temukan informasi terkini mengenai stunting, gejala, diagnosis, dan penanganan di sini.">
     <meta name="author" content="StuntAssist">
-    <link rel="icon" type="image/png" sizes="192x192" href="img/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="img/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="img/favicon/192x.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/32x.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/favicon/96x.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/16x.png">
     <link rel="manifest" href="img/favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
