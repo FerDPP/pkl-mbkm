@@ -39,11 +39,12 @@ $pages = [
         'show' => ($status_pengguna === 'admin')
     ],
     [
+        // <-- ADA DI templates/modal/modal-logout.php -->
         'name' => 'Registrasi',
         'link' => 'radmin',
         'icon' => 'fas fa-fw fa-users',
         'show' => ($status_pengguna === 'admin'),
-        'modal' => 'radminModal'
+        'modal' => 'radminModal' 
     ],
     [
         'name' => 'Keluar',
@@ -99,5 +100,6 @@ $pages = [
 
 </ul>
 
-<?php include './templates/modal/modal-radmin.php'; ?>
+<?php include 'modal/modal-logout.php' ?> 
+
 <!-- End of Sidebar -->
