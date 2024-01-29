@@ -982,6 +982,9 @@ function getDiagnosisCetak()
     $query = "SELECT * FROM tbl_diagnosis WHERE id_pengguna = '$id_pengguna'";
     $result = mysqli_query($koneksi, $query);
 
+
+    
+
     $diagnosis_data = [];
 
     // Iterasi melalui hasil query dan tambahkan data ke array
@@ -992,12 +995,11 @@ function getDiagnosisCetak()
     return $diagnosis_data;
 }
 
-function simpanDiagnosis($nikAnak, $namaBalita, $jenisKelamin, $usia, $beratBadan, $tinggiBadan, $imt, $tingkatStunting, $giziStatus)
+function simpanDiagnosis($namaBalita, $jenisKelamin, $usia, $beratBadan, $tinggiBadan, $imt, $tingkatStunting, $giziStatus)
 {
     include "./includes/koneksi.php";
 
     // Sanitasi nilai-nilai yang diterima sebelum menyimpan ke database
-    $nikAnak = mysqli_real_escape_string($koneksi, $nikAnak);
     $namaBalita = mysqli_real_escape_string($koneksi, $namaBalita);
     $jenisKelamin = mysqli_real_escape_string($koneksi, $jenisKelamin);
     if ($jenisKelamin == 'Laki-laki') {
@@ -1026,10 +1028,10 @@ function simpanDiagnosis($nikAnak, $namaBalita, $jenisKelamin, $usia, $beratBada
     $tanggal_diagnosis = date("Y-m-d");
 
     // Membuat query INSERT dengan parameter binding
-    $query = "INSERT INTO tbl_diagnosis (tanggal_diagnosis, nik_anak, nama_balita, jenis_kelamin, usia, bb, tb, imt, status_gizi, hasil_diagnosis, id_pengguna)
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO tbl_diagnosis (tanggal_diagnosis, nama_balita, jenis_kelamin, usia, bb, tb, imt, status_gizi, hasil_diagnosis, id_pengguna)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($koneksi, $query);
-    mysqli_stmt_bind_param($stmt, "ssssssssssi", $tanggal_diagnosis, $nikAnak, $namaBalita, $jenisKelamin, $usia, $beratBadan, $tinggiBadan, $imt, $giziStatus, $tingkatStunting, $id_pengguna);
+    mysqli_stmt_bind_param($stmt, "sssssssssi", $tanggal_diagnosis, $namaBalita, $jenisKelamin, $usia, $beratBadan, $tinggiBadan, $imt, $giziStatus, $tingkatStunting, $id_pengguna);
 
     // Eksekusi query
     if (mysqli_stmt_execute($stmt)) {
