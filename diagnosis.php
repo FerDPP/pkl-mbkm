@@ -4,7 +4,6 @@ include "./includes/functions.php";
 $status_pengguna = $_SESSION['status_pengguna'] ?? '';
 
 if (isset($_POST['simpan-diagnosis'])) {
-    $nikAnak = $_POST['nik-anak-submit'];
     $namaBalita = $_POST['nama-balita-submit'];
     $jenisKelamin = $_POST['jenis-kelamin-submit'];
     $usia = $_POST['usia-submit'];
@@ -14,7 +13,7 @@ if (isset($_POST['simpan-diagnosis'])) {
     $tingkatStunting = $_POST['tingkat-stunting-submit'];
     $giziStatus = $_POST['gizi-status-submit'];
 
-    simpanDiagnosis($nikAnak, $namaBalita, $jenisKelamin, $usia, $beratBadan, $tinggiBadan, $imt, $tingkatStunting, $giziStatus);
+    simpanDiagnosis($namaBalita, $jenisKelamin, $usia, $beratBadan, $tinggiBadan, $imt, $tingkatStunting, $giziStatus);
 }
 
 ?>
@@ -75,13 +74,6 @@ if (isset($_POST['simpan-diagnosis'])) {
                                 </div>
                                 <div class="card-body">
                                     <form id="form-diagnosis" method="POST" action="">
-                                        <div class="form-group">
-                                            <label for="nik_anak">NIK Anak</label>
-                                            <input type="text" class="form-control" id="nik_anak" name="nik_anak"
-                                                placeholder="Masukkan NIK Balita..." pattern="[0-9']+"
-                                                title="Nama hanya boleh menggunakan angka 16 digit"
-                                                required autocomplete="off">
-                                        </div>
                                         <div class="form-group">
                                             <label for="nama_balita">Nama Balita</label>
                                             <input type="text" class="form-control" id="nama_balita" name="nama_balita"
@@ -176,11 +168,6 @@ if (isset($_POST['simpan-diagnosis'])) {
                                     <div class="col">
                                         <table class="table-responsive">
                                             <tbody>
-                                                <tr>
-                                                    <td>NIK Balita</td>
-                                                    <td class="px-3">:</td>
-                                                    <td id="nik-anak">-</td>
-                                                </tr>
                                                 <tr>
                                                     <td>Nama Balita</td>
                                                     <td class="px-3">:</td>
@@ -308,7 +295,6 @@ if (isset($_POST['simpan-diagnosis'])) {
                                 </div>
 
                                 <form class="m-0" method="post" action="" onsubmit="return validateFormSubmit()">
-                                    <input type="hidden" id="nik-anak-submit" name="nik-anak-submit" readonly>
                                     <input type="hidden" id="nama-balita-submit" name="nama-balita-submit" readonly>
                                     <input type="hidden" id="jenis-kelamin-submit" name="jenis-kelamin-submit" readonly>
                                     <input type="hidden" id="usia-submit" name="usia-submit" readonly>
@@ -316,8 +302,8 @@ if (isset($_POST['simpan-diagnosis'])) {
                                     <input type="hidden" id="tinggi-badan-submit" name="tinggi-badan-submit" readonly>
                                     <input type="hidden" id="imt-submit" name="imt-submit" readonly>
                                     <input type="hidden" id="tingkat-stunting-submit" name="tingkat-stunting-submit"
-                                    <input type="hidden" id="gizi-status-submit" name="gizi-status-submit" readonly>
                                         readonly>
+                                    <input type="hidden" id="gizi-status-submit" name="gizi-status-submit" readonly>
                                     <?php if ($status_pengguna !== ''): ?>
                                                                                                     <div class="card-body">
                                                                                                         <button type="submit" name="simpan-diagnosis"
@@ -355,7 +341,6 @@ if (isset($_POST['simpan-diagnosis'])) {
 
 <script>
     function validateFormSubmit() {
-        let nikAnak = document.getElementById("nik-anak-submit").value;
         let namaBalita = document.getElementById("nama-balita-submit").value;
         let jenisKelamin = document.getElementById("jenis-kelamin-submit").value;
         let usia = document.getElementById("usia-submit").value;
@@ -366,7 +351,7 @@ if (isset($_POST['simpan-diagnosis'])) {
         let giziStatus = document.getElementById("gizi-status-submit").value;
 
         // Periksa jika salah satu input masih kosong
-        if (nikAnak === "" || namaBalita === "" || jenisKelamin === "" || usia === "" || beratBadan === "" || tinggiBadan === "" || imtVal === "" || tingkatStunting === "" || giziStatus === "") {
+        if (namaBalita === "" || jenisKelamin === "" || usia === "" || beratBadan === "" || tinggiBadan === "" || imtVal === "" || tingkatStunting === "" || giziStatus === "") {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -1046,7 +1031,6 @@ if (isset($_POST['simpan-diagnosis'])) {
 
 <script>
     const form = document.getElementById('form-diagnosis');
-    const nikAnakElement = document.getElementById('nik-anak');
     const namaBalitaElement = document.getElementById('nama-balita');
     const jenisKelaminElement = document.getElementById('jenis-kelamin');
     const usiaElement = document.getElementById('usia');
@@ -1073,7 +1057,6 @@ if (isset($_POST['simpan-diagnosis'])) {
     const giziLebihRangeElement = document.getElementById('giziLebihRange');
     const giziObesitasRangeElement = document.getElementById('giziObesitasRange');
 
-    const nikAnakElementSubmit = document.getElementById('nik-anak-submit');
     const namaBalitaElementSubmit = document.getElementById('nama-balita-submit');
     const jenisKelaminElementSubmit = document.getElementById('jenis-kelamin-submit');
     const usiaElementSubmit = document.getElementById('usia-submit');
@@ -1088,7 +1071,6 @@ if (isset($_POST['simpan-diagnosis'])) {
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const nikAnak = document.getElementById('nik_anak').value;
         const namaBalita = document.getElementById('nama_balita').value;
         const jenisKelamin = document.getElementById('jenis_kelamin').value;
         const usiaBalita = parseInt(document.getElementById('usia_balita').value);
@@ -1096,7 +1078,7 @@ if (isset($_POST['simpan-diagnosis'])) {
         const tinggiBadan = parseFloat(document.getElementById('tb_balita').value);
 
         // Validasi setiap input
-        if (!nikAnak || !namaBalita || jenisKelamin === "Masukkkan Jenis Kelamin"|| (usiaBalita !== 0 && !usiaBalita) || !beratBadan || !tinggiBadan) {
+        if (!namaBalita || jenisKelamin === 'Pilih jenis kelamin' || (usiaBalita !== 0 && !usiaBalita) || !beratBadan || !tinggiBadan) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -1125,9 +1107,6 @@ if (isset($_POST['simpan-diagnosis'])) {
         // Mengatur delay sebelum menampilkan hasil
         setTimeout(function () {
             // Update nilai input pada tabel hasil
-            nikAnakElement.textContent = nikAnak;
-            nikAnakElementSubmit.value = nikAnak;
-
             namaBalitaElement.textContent = namaBalita;
             namaBalitaElementSubmit.value = namaBalita;
 
@@ -1240,7 +1219,6 @@ if (isset($_POST['simpan-diagnosis'])) {
 
     function resetFormDiagnosis() {
         form.reset();
-        nikAnakElement.textContent = "-";
         namaBalitaElement.textContent = "-";
         jenisKelaminElement.textContent = "-";
         usiaElement.textContent = "-";
