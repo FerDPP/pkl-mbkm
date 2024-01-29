@@ -25,7 +25,6 @@ if (isset($_POST['hapus'])) {
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>NIK</th>
                         <th>Nama</th>
                         <th>Jenis Kelamin</th>
                         <th>Usia</th>
@@ -49,9 +48,6 @@ if (isset($_POST['hapus'])) {
                                 <?= $counter ?>
                             </td>
                             <td class="capitalize">
-                                <?= ucwords(strtolower(stripslashes($row['nik_anak']))) ?>
-                            </td>
-                            <td >
                                 <?= ucwords(strtolower(stripslashes($row['nama_balita']))) ?>
                             </td>
                             <td>
