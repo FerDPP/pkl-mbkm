@@ -10,15 +10,14 @@ $pages = [
     ],
     [
         'name' => 'Diagnosis',
-        'link' => 'diagnosis',
+        'link' => '#',
         'icon' => 'fas fa-fw fa-stethoscope',
-        'show' => true
+        'show' => true,
+        'sub_pages' => [
+            ['name' => 'Diagnosis', 'link' => 'diagnosis', 'icon' => 'fas fa-fw fa-stethoscope'],
+            ['name' => 'Riwayat Diagnosis', 'link' => 'data-diagnosis', 'icon' => 'fas fa-fw fa-file-medical-alt', 'show' => ($status_pengguna !== '')]
     ],
-    [
-        'name' => 'Riwayat Diagnosis',
-        'link' => 'data-diagnosis',
-        'icon' => 'fas fa-fw fa-file-medical-alt',
-        'show' => ($status_pengguna !== '')
+        
     ],
     [
         'name' => 'Profil',
@@ -38,13 +37,14 @@ $pages = [
         'icon' => 'fas fa-fw fa-users',
         'show' => ($status_pengguna === 'admin')
     ],
+    
     [
         // <-- ADA DI templates/modal/modal-logout.php -->
         'name' => 'Registrasi',
         'link' => 'radmin',
         'icon' => 'fas fa-fw fa-users',
         'show' => ($status_pengguna === 'admin'),
-        'modal' => 'radminModal' 
+        'modal' => 'radminModal'
     ],
     [
         'name' => 'Keluar',
@@ -77,15 +77,34 @@ $pages = [
     <hr class="sidebar-divider my-0">
     <?php foreach ($pages as $page): ?>
         <?php if ($page['show']): ?>
-            <li class="nav-item <?php echo isActivePage($current_page, $page['link']); ?>">
-                <a class="nav-link" href="<?php echo $page['link'] ?>" <?php if (isset($page['modal']))
-                       echo ' data-toggle="modal" data-target="#' . $page['modal'] . '"'; ?>>
-                    <i class="<?php echo $page['icon'] ?>"></i>
-                    <span>
-                        <?php echo $page['name'] ?>
-                    </span>
-                </a>
-            </li>
+            <?php if (isset($page['sub_pages'])): ?>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse<?php echo str_replace(' ', '', $page['name']); ?>" aria-expanded="true" aria-controls="collapse<?php echo str_replace(' ', '', $page['name']); ?>">
+                        <i class="<?php echo $page['icon']; ?>"></i>
+                        <span><?php echo $page['name']; ?></span>
+                    </a>
+                    <div id="collapse<?php echo str_replace(' ', '', $page['name']); ?>" class="collapse" aria-labelledby="heading<?php echo str_replace(' ', '', $page['name']); ?>" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <?php foreach ($page['sub_pages'] as $sub_page): ?>
+                                <a class="collapse-item" href="<?php echo $sub_page['link']; ?>"><?php echo $sub_page['name']; ?></a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </li>
+                <script>
+                    // Menutup collapse setelah diklik pada submenu
+                    $('#collapse<?php echo str_replace(' ', '', $page['name']); ?> .collapse-item').click(function() {
+                        $('#collapse<?php echo str_replace(' ', '', $page['name']); ?>').collapse('hide');
+                    });
+                </script>
+            <?php else: ?>
+                <li class="nav-item <?php echo isActivePage($current_page, $page['link']); ?>">
+                    <a class="nav-link" href="<?php echo $page['link'] ?>" <?php if (isset($page['modal'])) echo ' data-toggle="modal" data-target="#' . $page['modal'] . '"'; ?>>
+                        <i class="<?php echo $page['icon'] ?>"></i>
+                        <span><?php echo $page['name'] ?></span>
+                    </a>
+                </li>
+            <?php endif; ?>
         <?php endif; ?>
     <?php endforeach; ?>
 
