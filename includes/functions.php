@@ -824,6 +824,84 @@ function tambahPenggunaBaru($nama, $email, $no_telepon, $kata_sandi)
     }
 }
 
+function modalTambahBaru($nama, $email, $no_telepon, $kata_sandi)
+{
+    // Koneksi ke database
+    include 'includes/koneksi.php';
+
+    // Escape karakter khusus pada data input
+    $nama = $koneksi->real_escape_string($nama);
+    $email = $koneksi->real_escape_string($email);
+    $no_telepon = $koneksi->real_escape_string($no_telepon);
+    $kata_sandi = $koneksi->real_escape_string($kata_sandi);
+
+    // Memastikan bahwa email atau nomor telepon unik
+    $query_check = "SELECT * FROM tbl_pengguna WHERE email = '$email' OR no_telepon = '$no_telepon'";
+    $result_check = $koneksi->query($query_check);
+
+    if ($result_check->num_rows > 0) {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Pendaftaran Berhasil',
+                        }).then(function() {
+                            window.location.href = window.location.href;;
+                        });
+                    });
+            </script>";
+    } else {
+        // Menambahkan pengguna baru ke tabel
+        if (!empty($email)) {
+            // Jika email diisi, nomor telepon dikosongkan
+            $hashed_password = hash('sha256', $kata_sandi);
+            $query_insert = "INSERT INTO tbl_pengguna (nama, status_pengguna, email, kata_sandi) VALUES ('$nama', status_pengguna, '$email', '$hashed_password')";
+        } elseif (!empty($no_telepon)) {
+            // Jika nomor telepon diisi, email dikosongkan
+            $hashed_password = hash('sha256', $kata_sandi);
+            $query_insert = "INSERT INTO tbl_pengguna (nama, status_pengguna, no_telepon, kata_sandi) VALUES ('$nama', status_pengguna, '$no_telepon', '$hashed_password')";
+        } else {
+            echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Mohon isi Email atau No. Telp.'
+                    }).then(function() {
+                        window.location.href = window.location.href;
+                    });    
+                });
+            </script>";
+            exit;
+        }
+            if ($koneksi->query($query_insert) === TRUE) {
+                echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Pendaftaran Berhasil',
+                        }).then(function() {
+                            window.location.href = window.location.href;;
+                        });
+                    });
+                </script>";
+            } else {
+                echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Pendaftaran Gagal',
+                            text: 'Silahkan hubungi admin untuk bantuan.'
+                            footer: 'Email: stuntassisten@gmail.com'
+                        }).then(function() {
+                            window.location.href = window.location.href;
+                        });
+                    });
+            </script>";
+        }
+    }
+}
+
 function simpanPassword($kata_sandi)
 {
     // Koneksi ke database
@@ -981,9 +1059,6 @@ function getDiagnosisCetak()
     // Query untuk mengambil data diagnosis
     $query = "SELECT * FROM tbl_diagnosis WHERE id_pengguna = '$id_pengguna'";
     $result = mysqli_query($koneksi, $query);
-
-
-    
 
     $diagnosis_data = [];
 
