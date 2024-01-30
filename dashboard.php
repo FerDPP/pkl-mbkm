@@ -39,21 +39,11 @@ $id_pengguna = getIdPenggunaFromEmail($email);
                     <?= generatePageTitle('Dashboard'); ?>
                     <!-- Alert Info -->
                     <?= checkProfileCompletion(); ?>
+                    <!-- Sub Heading -->
+                    <?= generateSubPageTitle('Menu'); ?>
                     <!-- Card Statistik -->
                     <?php include './templates/card.php'; ?>
                     <!-- Card Menu Shortcut -->
-                    <?php if($_SESSION['status_pengguna'] === 'user') { ?>
-                       <h3 style="color:black; font-size:large;">
-                            HELLO FERIO
-                        </h3>
-                        <p>
-                            sjvbffhdjkvbbjdbnbkjgdgrjkbggjkbebejrbjkggjjbgjbrejkbjkrb
-                        </p>
-                    <?php } else if ($_SESSION['status_pengguna'] === 'admin') {
-                    include './templates/card-menu.php'; ?>
-                    <?php } ?>
-                    <!-- Sub Heading -->
-                    <?= generateSubPageTitle('Menu'); ?>
                     <!-- Sub Heading -->
                     <?= generateSubPageTitle('Grafik'); ?>
                     <!-- Chart Component -->
