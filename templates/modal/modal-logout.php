@@ -19,23 +19,24 @@
 </div>
 
 <?php
-if ($status_pengguna === 'admin') {
 
-if (isset($_POST['register'])) {
-    $nama = $_POST['nama'];
-    $email = $_POST['email'];
-    $no_telepon = $_POST['no_telepon'];
-    $kata_sandi = $_POST['konfirmasi_password'];
 
-    tambahPenggunaBaru($nama, $email, $no_telepon, $kata_sandi);
-}}
+    if (isset($_POST['register'])) {
+        $nama = $_POST['nama'];
+        $email = $_POST['email'];
+        $no_telepon = $_POST['no_telepon'];
+        $kata_sandi = $_POST['konfirmasi_password'];
+
+        modalTambahBaru($nama, $email, $no_telepon, $kata_sandi);
+    }
 ?>
+
 <!-- Logout Modal-->
 <div class="modal fade" id="radminModal" tabindex="-1" role="dialog" aria-labelledby="modalRadmin" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="user-select-none modal-header bg-primary text-white">
-                <h5 class="modal-title" id="radminModalLabel">Apakah anda akan menambah data Pengguna?</h5>
+                <h5 class="modal-title" id="radminModalLabel">Menu Registrasi Admin?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="text-white">×</span>
                 </button>
@@ -66,16 +67,6 @@ if (isset($_POST['register'])) {
                                             <a href="#" class="text-sm" id="toggleEmailPhone"
                                                 style="font-size: 0.8rem">Gunakan No. Telepon</a>
                                         </div>
-
-                                        <div class="form-group">
-                                            <select class="form-control" id="status_pengguna" name="status_pengguna"
-                                                required>
-                                                <option value="" selected disabled>Pilih Akses</option>
-                                                <option value="admin">Admin</option>
-                                                <option value="user">User</option>
-                                            </select>
-                                        </div>
-
                                         <div class="form-group">
                                             <div class="input-group input-group.border-0">
                                                 <input type="password" class="form-control form-control-user"
@@ -145,7 +136,6 @@ if (isset($_POST['register'])) {
                                     </form>
                                 </div>
         </div>
-        
     </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
