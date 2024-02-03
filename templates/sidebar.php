@@ -8,11 +8,19 @@ $pages = [
         'icon' => 'fas fa-fw fa-tachometer-alt',
         'show' => ($status_pengguna !== '')
     ],
+
+    [
+        'name' => 'Diagnosis',
+        'link' => 'diagnosis',
+        'icon' => 'fas fa-fw fa-stethoscope',
+        'show' => ($status_pengguna !== 'admin' && $status_pengguna !== "user")
+    ],
+
     [
         'name' => 'Diagnosis',
         'link' => '#',
         'icon' => 'fas fa-fw fa-stethoscope',
-        'show' => true,
+        'show' => ($status_pengguna !== ''),
         'sub_pages' => [
             ['name' => 'Diagnosis', 'link' => 'diagnosis', 'icon' => 'fas fa-fw fa-stethoscope'],
             ['name' => 'Riwayat Diagnosis', 'link' => 'data-diagnosis', 'icon' => 'fas fa-fw fa-file-medical-alt', 'show' => ($status_pengguna !== '')]
@@ -40,7 +48,7 @@ $pages = [
     
     [
         // <-- ADA DI templates/modal/modal-logout.php -->
-        'name' => 'Registrasi',
+        'name' => 'Registrasi Admin',
         'link' => 'radmin',
         'icon' => 'fas fa-fw fa-users',
         'show' => ($status_pengguna === 'admin'),
@@ -91,12 +99,7 @@ $pages = [
                         </div>
                     </div>
                 </li>
-                <script>
-                    // Menutup collapse setelah diklik pada submenu
-                    $('#collapse<?php echo str_replace(' ', '', $page['name']); ?> .collapse-item').click(function() {
-                        $('#collapse<?php echo str_replace(' ', '', $page['name']); ?>').collapse('hide');
-                    });
-                </script>
+                
             <?php else: ?>
                 <li class="nav-item <?php echo isActivePage($current_page, $page['link']); ?>">
                     <a class="nav-link" href="<?php echo $page['link'] ?>" <?php if (isset($page['modal'])) echo ' data-toggle="modal" data-target="#' . $page['modal'] . '"'; ?>>
@@ -118,6 +121,7 @@ $pages = [
 
 
 </ul>
+
 
 <?php include 'modal/modal-logout.php' ?> 
 
