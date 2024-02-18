@@ -31,8 +31,6 @@ function getPageTitle($currentPage)
             return '- Panduan';
         case 'data-pengguna':
             return '- Data Pengguna';
-        case 'radmin':
-            return '- Registrasi';
         default:
             return '';
     }
@@ -477,9 +475,119 @@ function getUserData()
     return $user_data;
 }
 
+function getAdminData()
+{
+    // Koneksi ke database
+    include 'includes/koneksi.php';
+
+    $query = "SELECT *
+    FROM tbl_pengguna
+    WHERE status_pengguna <> 'user'
+    ORDER BY id_pengguna DESC;
+    ";
+    $result = mysqli_query($koneksi, $query);
+
+    $admin_data = [];
+
+    // Iterasi melalui hasil query dan tambahkan data ke array
+    while ($row = mysqli_fetch_assoc($result)) {
+        $admin_data[] = $row;
+    }
+
+    return $admin_data;
+}
+
 
 // Fungsi untuk menghapus data berdasarkan email atau nomor telepon
 function hapusDataPengguna($email, $no_telepon)
+{
+    // Koneksi ke database
+    include 'includes/koneksi.php';
+
+    // Escape string email dan nomor telepon untuk menghindari serangan SQL Injection
+    $email = mysqli_real_escape_string($koneksi, $email);
+    $no_telepon = mysqli_real_escape_string($koneksi, $no_telepon);
+
+    // Tentukan kondisi query berdasarkan email dan nomor telepon
+    $condition = "";
+    if (!empty($email) && !empty($no_telepon)) {
+        $condition = "email = '$email' AND no_telepon = '$no_telepon'";
+    } elseif (!empty($email)) {
+        $condition = "email = '$email'";
+    } elseif (!empty($no_telepon)) {
+        $condition = "no_telepon = '$no_telepon'";
+    }
+
+    // Query hapus data pada tabel tbl_diagnosis berdasarkan id_pengguna
+    $diagnosisQuery = "DELETE FROM tbl_diagnosis WHERE id_pengguna IN (SELECT id_pengguna FROM tbl_pengguna WHERE $condition)";
+
+    // Query hapus data pada tabel tbl_pengguna berdasarkan email atau nomor telepon
+    $penggunaQuery = "DELETE FROM tbl_pengguna WHERE $condition";
+
+    // Mulai transaksi
+    mysqli_begin_transaction($koneksi);
+
+    try {
+        // Eksekusi query hapus data pada tabel tbl_diagnosis
+        mysqli_query($koneksi, $diagnosisQuery);
+
+        // Eksekusi query hapus data pada tabel tbl_pengguna
+        mysqli_query($koneksi, $penggunaQuery);
+
+        // Commit transaksi
+        mysqli_commit($koneksi);
+
+        echo "<script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: 'Data berhasil dihapus'
+        }).then(function() {
+            window.location.href = window.location.href;
+        });
+        </script>";
+    } catch (Exception $e) {
+        // Rollback transaksi jika terjadi kesalahan
+        mysqli_rollback($koneksi);
+
+        echo "<script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'error',
+            title: 'Data gagal dihapus'
+        }).then(function() {
+            window.location.href = window.location.href;
+        });
+        </script>";
+    }
+
+    // Tutup koneksi database
+    mysqli_close($koneksi);
+}
+
+function hapusDataAdmin($email, $no_telepon)
 {
     // Koneksi ke database
     include 'includes/koneksi.php';
