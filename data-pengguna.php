@@ -29,16 +29,10 @@ if ($_SESSION['status_pengguna'] !== 'admin') {
                     <?= generatePageTitle('Data Pengguna'); ?>
                     <!-- Tabel Pengguna -->
                     <?php include './templates/table-pengguna.php'; ?>
-                </div>
-                <!-- /.container-fluid -->
-            </div>
-            <!-- End of Main Content -->
-            <?php include './templates/footer.php'; ?>
-        </div>
-        <!-- End of Content Wrapper -->
-    </div>
-    <!-- End of Page Wrapper -->
-</body>
+                    <?php include './templates/modal/modal-radmin.php'; ?>                    
+
+                <?php include './templates/table-padmin.php'; ?>
+
 
 <?php include './templates/js.php'; ?>
 
