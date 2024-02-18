@@ -24,6 +24,7 @@ $status_pengguna = $_SESSION['status_pengguna'] ?? '';
                 <img class="user-select-none img-profile rounded-circle" src="<?= getProfileImage($koneksi); ?>"
                     alt="Profil">
             </a>
+
             <?php if ($status_pengguna !== ''): ?>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -43,7 +44,6 @@ $status_pengguna = $_SESSION['status_pengguna'] ?? '';
     </ul>
 
 </nav>
-
 
 <?php include './templates/modal/modal-logout.php'; ?>
 <!-- End of Topbar -->

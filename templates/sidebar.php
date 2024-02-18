@@ -23,7 +23,7 @@ $pages = [
         'show' => ($status_pengguna !== ''),
         'sub_pages' => [
             ['name' => 'Diagnosis', 'link' => 'diagnosis', 'icon' => 'fas fa-fw fa-stethoscope'],
-            ['name' => 'Riwayat Diagnosis', 'link' => 'data-diagnosis', 'icon' => 'fas fa-fw fa-file-medical-alt', 'show' => ($status_pengguna !== '')]
+            ['name' => 'Riwayat Diagnosis', 'link' => 'data-diagnosis', 'icon' => 'fas fa-fw fa-file-medical-alt']
     ],
         
     ],
@@ -46,14 +46,6 @@ $pages = [
         'show' => ($status_pengguna === 'admin')
     ],
     
-    [
-        // <-- ADA DI templates/modal/modal-logout.php -->
-        'name' => 'Registrasi Admin',
-        'link' => 'radmin',
-        'icon' => 'fas fa-fw fa-users',
-        'show' => ($status_pengguna === 'admin'),
-        'modal' => 'radminModal'
-    ],
     [
         'name' => 'Keluar',
         'link' => 'login',
@@ -122,7 +114,5 @@ $pages = [
 
 </ul>
 
-
-<?php include 'modal/modal-logout.php' ?> 
 
 <!-- End of Sidebar -->

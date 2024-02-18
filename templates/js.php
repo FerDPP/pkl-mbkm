@@ -15,7 +15,7 @@
 
 <?php
 // Kondisi untuk memuat CSS dan JavaScript pada halaman-halaman tertentu
-if ($current_page == 'data-diagnosis' || $current_page == 'data-pengguna' || $current_page == 'profil') {
+if ($current_page == 'data-diagnosis' || $current_page == 'data-pengguna' || $current_page == 'data-radmin'|| $current_page == 'panduan'|| $current_page == 'profil') {
     ?>
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>

@@ -19,6 +19,7 @@ if (isset($_POST['hapus'])) {
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <h2>User</h2>
                 <thead>
                     <tr>
                         <th>No.</th>
