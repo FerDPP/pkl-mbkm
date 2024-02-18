@@ -70,6 +70,13 @@
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
+    <!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+
     <!-- =======================================================
   * Template Name: SoftLand
   * Updated: May 30 2023 with Bootstrap v5.3.0
@@ -89,7 +96,7 @@
 
         <nav id="navbar" class="navbar">
           <ul>
-            <li><a class="nav-link active" href="/">Beranda</a></li>
+            <li><a class="nav-link active" href="./">Beranda</a></li>
             <li><a class="nav-link" href="#fitur">Fitur</a></li>
             <li><a class="nav-link" href="#stunting">Stunting</a></li>
             <li><a class="nav-link" href="login">Login</a></li>
@@ -139,7 +146,8 @@
             <div class="row">
               <div class="col-lg-8 text-center text-lg-left">
                 <h1 data-aos="fade-right">
-                  Diagnosis & Dukung Pertumbuhan Anak yang Sehat
+                 <span id="typed-1"></span>
+                 <br>
                 </h1>
                 <p
                   class="mb-5 pr-lg-5 mr-lg-5"
@@ -161,14 +169,33 @@
                 </p>
               </div>
               <div class="col-lg-4 iphone-wrap d-none d-md-block">
-                <img
-                  src="assets/img/phone.png"
-                  alt="Image"
-                  class="phone"
-                  data-aos="fade-right"
-                  data-aos-delay="200"
-                />
-              </div>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img
+          src="assets/img/gambar1.png"
+          alt="Image 1"
+          class="phone"
+          data-aos="fade-right"
+          data-aos-delay="200"
+        />
+      </div>
+      <div class="swiper-slide">
+        <img
+          src="assets/img/gambar2.png"
+          alt="Image 2"
+          class="phone"
+          data-aos="fade-right"
+          data-aos-delay="200"
+        />
+      </div>
+      <!-- Tambahkan gambar-gambar lain di sini sesuai kebutuhan -->
+    </div>
+    <!-- Tambahkan navigasi Swiper jika diperlukan -->
+  </div>
+</div>
+
+
             </div>
           </div>
         </div>
@@ -619,6 +646,46 @@
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/royal_preloader.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script>
+        // Type text
+
+        var typed = new Typed('#typed-1', {
+            strings: ['Cegah Stunting', 'Itu Penting'],
+            typeSpeed: 45,
+            backSpeed: 0,
+            startDelay: 200,
+            backDelay: 2200,
+            loop: true,
+            loopCount: false,
+            showCursor: true,
+            cursorChar: "_",
+            attr: null
+        });
+    </script>
+
+    <script>
+  var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    loop: true,
+    autoplay: {
+      delay: 5000, // Setel waktu tayang slide dalam milidetik (misalnya: 5000 untuk 5 detik)
+      disableOnInteraction: false, // Biarkan autoplay berlanjut meskipun ada interaksi pengguna
+    },
+    effect: 'fade', // Efek fade untuk animasi
+    navigation: {
+      nextEl: null, // Menghilangkan tombol navigasi selanjutnya
+      prevEl: null, // Menghilangkan tombol navigasi sebelumnya
+    },
+  });
+</script>
+
+
+
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
