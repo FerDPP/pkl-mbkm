@@ -306,6 +306,9 @@ if (isset($_POST['simpan-diagnosis'])) {
                                     <input type="hidden" id="gizi-status-submit" name="gizi-status-submit" readonly>
                                     <?php if ($status_pengguna !== ''): ?>
                                                                                                     <div class="card-body">
+                                                                                                        <a href="https://www.canva.com/" target="_blank" >Lihat Rekomendasi Lainnya</a>
+                                                                                                        <br>
+                                                                                                        <br>
                                                                                                         <button type="submit" name="simpan-diagnosis"
                                                                                                             class="btn btn-primary btn-user btn-block">
                                                                                                             Simpan Diagnosis

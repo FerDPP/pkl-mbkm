@@ -22,7 +22,6 @@ $id_pengguna = getIdPenggunaFromEmail($email);
 <?php include './templates/header.php'; ?>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
@@ -39,11 +38,12 @@ $id_pengguna = getIdPenggunaFromEmail($email);
                     <?= generatePageTitle('Dashboard'); ?>
                     <!-- Alert Info -->
                     <?= checkProfileCompletion(); ?>
-                    <!-- Sub Heading -->
-                    <?= generateSubPageTitle('Menu'); ?>
                     <!-- Card Statistik -->
                     <?php include './templates/card.php'; ?>
+                    <!-- Sub Heading -->
+                    <?= generateSubPageTitle('Menu'); ?>
                     <!-- Card Menu Shortcut -->
+                    <?php include './templates/card-menu.php'; ?>
                     <!-- Sub Heading -->
                     <?= generateSubPageTitle('Grafik'); ?>
                     <!-- Chart Component -->

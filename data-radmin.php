@@ -15,10 +15,30 @@ if ($_SESSION['status_pengguna'] !== 'admin') {
 <?php include './templates/header.php'; ?>
 
 <body id="page-top">
-    <!-- Scrollable modal -->
-<div class="modal-dialog modal-dialog-scrollable">
-  ...
-</div>
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <?php include './templates/sidebar.php'; ?>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <?php include './templates/navbar.php'; ?>
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <?= generatePageTitle('Data Registrasi'); ?>
+                    <!-- Tabel Pengguna -->
+                    <?php include './templates/modal/modal-radmin.php'; ?>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            <?php include './templates/footer.php'; ?>
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+</body>
 
 <?php include './templates/js.php'; ?>
 
