@@ -1,8 +1,8 @@
-# 🍎 StuntAssist: Aplikasi Diagnosis Stunting 🌱
+# 🍎 Sipadis: Aplikasi Diagnosis Stunting 🌱
 
 StuntAssist adalah aplikasi yang memberikan diagnosis cepat, akurat, dan rekomendasi relevan untuk mendukung pertumbuhan dan perkembangan anak dengan optimal pada kasus stunting.
 
-![Screenshot Aplikasi](screenshot-aplikasi.png)
+![Screenshot 2024-02-18 151722](https://github.com/FerDPP/pkl-mbkm-stunting/assets/81939136/29029d4a-a476-485a-ae08-eb2eaa27876d)
 
 ## 🚀 Fitur Utama
 - **Diagnosis:** Melakukan diagnosis cepat untuk menentukan status stunting anak.
@@ -12,8 +12,8 @@ StuntAssist adalah aplikasi yang memberikan diagnosis cepat, akurat, dan rekomen
 
 ## 🔧 Cara Menggunakan
 1. **Login:**
-   - **Email:** stuntassistxxx@gmail.com
-   - **Password:** SepertiEmail29
+   - **Email:** bryanferdy@gmail.com
+   - **Password:** ferdy123
 
 ## 🌟 Pengembangan dan Kontribusi
 Jika Anda tertarik berkontribusi pada pengembangan StuntAssist, kami sangat menyambut kontribusi. 🚀
