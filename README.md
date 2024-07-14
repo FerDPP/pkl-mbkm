@@ -10,10 +10,5 @@ StuntAssist adalah aplikasi yang memberikan diagnosis cepat, akurat, dan rekomen
 - **Tampilan Perkembangan Grafik Stunting:** Menampilkan grafik perkembangan stunting anak untuk pemantauan visual.
 - **Informasi Penanganan:** Memberikan informasi dan rekomendasi penanganan yang relevan.
 
-## 🔧 Cara Menggunakan
-1. **Login:**
-   - **Email:** bryanferdy@gmail.com
-   - **Password:** ferdy123
-
 ## 🌟 Pengembangan dan Kontribusi
 Jika Anda tertarik berkontribusi pada pengembangan StuntAssist, kami sangat menyambut kontribusi. 🚀
